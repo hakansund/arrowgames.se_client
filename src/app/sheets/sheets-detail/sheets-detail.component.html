@@ -1,0 +1,143 @@
+<template ngbModalContainer></template>
+
+<template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Radera {{ sheet.name }}?</h4>
+  </div>
+  <div class="modal-body">
+    <p>Vill du verkligen radera rollformuläret för {{ sheet.name }}?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="c('Close click')">Radera</button>
+  </div>
+</template>
+
+<div *ngIf="sheet">
+  <div class="card card-block">
+    <h4 class="card-title">{{ sheet.name }}</h4>
+    <p class="card-text">Arketyp: {{ sheet.archetype }}</p>
+    <p class="card-text">Utseende: {{ sheet.appearance }}</p>
+    <p class="card-text">Färdigheter:<br>
+    <dl class="row">
+
+        <dt class="col-sm-3">Strid</dt>
+        <dd class="col-sm-9">{{ sheet.skills.fighting }}</dd>
+
+        <dt class="col-sm-3">Förflyttning</dt>
+        <dd class="col-sm-9">{{ sheet.skills.movement }}</dd>
+
+        <dt class="col-sm-3">Social</dt>
+        <dd class="col-sm-9">{{ sheet.skills.social }}</dd>
+
+        <dt class="col-sm-3">Utbildning</dt>
+        <dd class="col-sm-9">{{ sheet.skills.learning }}</dd>
+
+        <dt class="col-sm-3">Teknik</dt>
+        <dd class="col-sm-9">{{ sheet.skills.tech }}</dd>
+      </dl>
+
+    <div class="card-block text-xs-right">
+      <button type="button" class="btn btn-outline-danger" (click)="open(content)">Radera</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!sheet">
+  <div class="card card-block">
+    <h4 class="card-title">Skapa rollperson</h4>
+    <p class="card-text">
+      <form [formGroup]="sheetForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <label for="name">Namn</label>
+          <input type="text" class="form-control" id="name" formControlName="name" required>
+        </div>
+        <div class="form-group">
+          <label for="arketyp">Arketyp</label>
+          <input type="text" class="form-control" id="arketyp" formControlName="archetype" required>
+        </div>
+        <div class="form-group">
+          <label for="appearance">Utseende</label>
+          <input type="text" class="form-control" id="appearance" formControlName="appearance" required>
+        </div>
+        <div formGroupName="skills">
+
+            <div class="row">
+
+              <div class="col-xs-2">
+                <div class="form-group">
+                <label for="fighting">Strid</label>
+                <select class="form-control" formControlName="fighting">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                </div>
+              </div>
+
+              <div class="col-xs-2">
+                <div class="form-group">
+                <label for="fighting">Förflyttning</label>
+                <select class="form-control" formControlName="movement">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                </div>
+              </div>
+
+              <div class="col-xs-2">
+                <div class="form-group">
+                <label for="fighting">Social</label>
+                <select class="form-control" formControlName="social">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                </div>
+              </div>
+
+              <div class="col-xs-2">
+                <div class="form-group">
+                <label for="fighting">Utbildning</label>
+                <select class="form-control" formControlName="learning">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                </div>
+              </div>
+
+              <div class="col-xs-2">
+                <div class="form-group">
+                <label for="fighting">Teknik</label>
+                <select class="form-control" formControlName="tech">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+                </div>
+              </div>
+
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-outline-primary" [disabled]="!sheetForm.valid">Lägg till</button>
+
+     </form>
+
+  </div>
+</div>

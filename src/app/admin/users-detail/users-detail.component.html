@@ -1,0 +1,52 @@
+<template ngbModalContainer></template>
+
+<template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Radera {{ user.username }}?</h4>
+  </div>
+  <div class="modal-body">
+    <p>Vill du verkligen radera användaren {{ user.username }}?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="c('Close click')">Radera</button>
+  </div>
+</template>
+
+<div *ngIf="user">
+  <div class="card card-block">
+    <h4 class="card-title">{{ user.username }}</h4>
+    <div class="card-block text-xs-right">
+      <button type="button" class="btn btn-outline-danger" (click)="open(content)">Radera</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!user">
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">Skapa användare</h4>
+    </div>
+
+    <div class="card-block">
+
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <label for="username">Användarnamn</label>
+          <input type="text" class="form-control" id="username" formControlName="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Lösenord</label>
+          <input type="text" class="form-control" id="password" formControlName="password" required>
+        </div>
+
+        <button type="submit" class="btn btn-outline-primary" [disabled]="!userForm.valid">Lägg till</button>
+
+      </form>
+    </div>
+
+  </div>
+</div>

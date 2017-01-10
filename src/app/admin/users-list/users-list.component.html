@@ -1,0 +1,26 @@
+<div class="col-sm-6">
+
+  <div class="card">
+
+    <div class="card-block">
+      <h4 class="card-title">Användare</h4>
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <li *ngIf="!users" class="list-group-item">Inga användare än</li>
+      <li *ngFor="let user of users" (click)="onSelect(user)" class="list-group-item list-group-item-action"> 
+        {{ user.username }} 
+      </li>
+    </ul>
+
+    <div class="card-block">
+      <button type="button" class="btn btn-outline-primary" (click)="onClear()">Skapa användare</button>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="col-sm-6">
+  <app-users-detail [user]='selectedUser' (newUser)='onNewUser($event)' (deleteUser)='onDeleteUser($event)'></app-users-detail>
+</div>

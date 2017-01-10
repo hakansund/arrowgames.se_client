@@ -1,0 +1,38 @@
+<div class="container">
+
+  <nav class="navbar navbar-dark bg-inverse">
+    <ul class="nav navbar-nav">
+      <a  class="navbar-brand" routerLink="/">
+        <img src="assets/favicon-32x32.png" alt="Arrow Games Logo">
+      </a>
+      <li class="nav-item" *ngIf="authService.loggedIn()">
+        <a class="nav-link" routerLink="/rules"><i class="fa fa-book fa-fw" aria-hidden="true"></i> Regler</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.loggedIn()">
+        <a class="nav-link" routerLink="/sheets"><i class="fa fa-id-card-o fa-fw" aria-hidden="true"></i> Rollformulär</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/about"><i class="fa fa-question-circle-o fa-fw" aria-hidden="true"></i> Om</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.loggedIn()">
+        <a class="nav-link" routerLink="/admin"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> Administration</a>
+      </li>
+    </ul>
+
+    <div *ngIf="authService.loggedIn()">
+      <button type="button" class="btn btn-outline-info float-xs-right" (click)="onLogOut()">Logga ut {{authService.loggedInUsername()}}</button>
+    </div>
+
+    <div *ngIf="!authService.loggedIn()">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-inline float-xs-right">
+        <input class="form-control" type="text" placeholder="Användarnamn" formControlName="username" required>
+        <input class="form-control" type="password" placeholder="Lösenord" formControlName="password" required>
+        <button class="btn btn-outline-info" type="submit" [disabled]="!loginForm.valid">Logga in</button>
+      </form>
+    </div>
+
+  </nav>
+
+  <router-outlet></router-outlet>
+
+</div>
