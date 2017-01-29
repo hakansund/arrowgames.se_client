@@ -1,38 +1,30 @@
-<div class="container">
+<md-toolbar color="primary">
 
-  <nav class="navbar navbar-dark bg-inverse">
-    <ul class="nav navbar-nav">
-      <a  class="navbar-brand" routerLink="/">
-        <img src="assets/favicon-32x32.png" alt="Arrow Games Logo">
-      </a>
-      <li class="nav-item" *ngIf="authService.loggedIn()">
-        <a class="nav-link" routerLink="/rules"><i class="fa fa-book fa-fw" aria-hidden="true"></i> Regler</a>
-      </li>
-      <li class="nav-item" *ngIf="authService.loggedIn()">
-        <a class="nav-link" routerLink="/sheets"><i class="fa fa-id-card-o fa-fw" aria-hidden="true"></i> Rollformulär</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/about"><i class="fa fa-question-circle-o fa-fw" aria-hidden="true"></i> Om</a>
-      </li>
-      <li class="nav-item" *ngIf="authService.loggedIn()">
-        <a class="nav-link" routerLink="/admin"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> Administration</a>
-      </li>
-    </ul>
+  <button md-button routerLink="/">
+    <img src="assets/favicon-32x32.png" alt="Arrow Games Logo">
+  </button>
 
-    <div *ngIf="authService.loggedIn()">
-      <button type="button" class="btn btn-outline-info float-xs-right" (click)="onLogOut()">Logga ut {{authService.loggedInUsername()}}</button>
-    </div>
+  <span *ngIf="authService.loggedIn()">
+    <button md-button routerLink="/rules">Regler</button>
+    <button md-button routerLink="/sheets"> Rollformulär</button>
+    <button md-button routerLink="/admin"> Administration</button>
+  </span>
 
-    <div *ngIf="!authService.loggedIn()">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-inline float-xs-right">
-        <input class="form-control" type="text" placeholder="Användarnamn" formControlName="username" required>
-        <input class="form-control" type="password" placeholder="Lösenord" formControlName="password" required>
-        <button class="btn btn-outline-info" type="submit" [disabled]="!loginForm.valid">Logga in</button>
-      </form>
-    </div>
+  <button md-button routerLink="/about">Om</button>
 
-  </nav>
+  <span class="spacer"></span>  
 
-  <router-outlet></router-outlet>
+  <md-icon>account_circle</md-icon>
 
-</div>
+  <span *ngIf="authService.loggedIn()">
+    &nbsp;{{ authService.loggedInUsername() }}
+    <button md-button (click)="onLogOut()">Logga ut</button>
+  </span>
+  <span *ngIf="!authService.loggedIn()">
+    <button md-button (click)="openDialog()">Logga in</button>
+  </span>
+  
+
+</md-toolbar>
+
+<router-outlet></router-outlet>

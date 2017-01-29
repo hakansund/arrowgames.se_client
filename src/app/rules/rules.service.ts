@@ -3,7 +3,7 @@ import { Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
 
-import { Rule, EditedRule } from './rule';
+import { Rule } from './rule';
 
 @Injectable()
 export class RulesService {
@@ -12,7 +12,7 @@ export class RulesService {
 
   constructor(private authHttp: AuthHttp) { }
 
-  getRule (id: String): Observable<Rule> {
+  getRule (id: string): Observable<Rule> {
     return this.authHttp.get(this.rulesUrl + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
@@ -24,13 +24,13 @@ export class RulesService {
                     .catch(this.handleError);
   }
 
-  addRule (rule: EditedRule): Observable<Rule> {
+  addRule (rule: Rule): Observable<Rule> {
     return this.authHttp.post(this.rulesUrl, JSON.stringify(rule))
                     .map((res: Response) => (res.json().rule))
                     .catch(this.handleError);
   }
 
-  deleteRule (id: String): Observable<Rule> {
+  deleteRule (id: string): Observable<Rule> {
     return this.authHttp.delete(this.rulesUrl + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
@@ -54,7 +54,7 @@ export class RulesService {
       const err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : error.tostring();
     }
     console.error(errMsg);
     return Observable.throw(errMsg);

@@ -1,23 +1,41 @@
-<div class="row">
-  <br><h1 class="text-xs-center"> Administration </h1><br>
-
-    <div class="col-sm-4">
-
-      <div class="card">
-
-        <div class="card-block">
-          <h4 class="card-title">Administration</h4>
-        </div>
-
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item list-group-item-action" routerLink="/admin/users">Användare</li>
-          <li class="list-group-item list-group-item-action">Min profil</li>
-        </ul>
-
-      </div>
-
-    </div>
-
-    <div class="col-sm-8"><router-outlet></router-outlet></div>
-
-</div>
+<md-card>
+  <md-card-title>Administration</md-card-title>
+  <md-card-content>
+    <md-tab-group (selectChange)=reset()>
+      <md-tab *ngFor="let user of users" label={{user.username}}>
+        <md-card>
+          <md-card-title>{{ user.username }}</md-card-title>
+          <md-card-content>
+            {{ user.username }}
+          </md-card-content>
+          <md-card-actions align="end">
+            <button md-button (click)="deleteUser(user._id)" [disabled]="!delete">RADERA</button>
+            <md-slide-toggle [(ngModel)]="delete" color="primary"></md-slide-toggle>
+          </md-card-actions>
+        </md-card>
+      </md-tab>
+      <md-tab>
+        <template md-tab-label>
+          <strong>Skapa ny användare</strong>
+        </template>
+        <md-card>
+          <md-card-title>Skapa ny användare</md-card-title>
+          <md-card-content>
+            <form [formGroup]="userForm">
+            <md-input-container>
+              <input md-input placeholder="Användarnamn" formControlName="username" required>
+              <md-hint>Minst 5 tecken</md-hint>
+            </md-input-container>
+            <md-input-container>
+              <input md-input placeholder="Lösenord" formControlName="password" required>
+            </md-input-container>
+            </form>
+          </md-card-content>
+          <md-card-actions>
+            <button md-button (click)="onSubmit()" [disabled]="!userForm.valid">SKAPA</button>
+          </md-card-actions>
+        </md-card>
+      </md-tab>
+    </md-tab-group>
+  </md-card-content>
+</md-card>

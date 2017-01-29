@@ -1,5 +1,166 @@
-<div class="row">
-  <br><h1 class="text-xs-center"> Rollformulär </h1>
-</div>
-<br>
-<router-outlet></router-outlet>
+<md-card>
+  <md-card-title>Rollformulär</md-card-title>
+  <md-card-content>
+    <md-tab-group (selectChange)=reset()>
+      <md-tab *ngFor="let sheet of sheets" label={{sheet.name}}>
+        <md-card>
+          <md-card-title>{{ sheet.name }}</md-card-title>
+          <md-card-content>
+            <div *ngIf="!editing">
+              <div fxLayout="row" fxLayoutAlign="space-around">
+                <md-card fxFlex>
+                  <md-card-title>Karaktärsdata</md-card-title>
+                  <md-card-content>
+                    <md-list>
+                    <md-list-item>Arketyp: {{ sheet.archetype }}</md-list-item>
+                    <md-list-item>Utseende: {{ sheet.appearance }}</md-list-item>
+                    </md-list>
+                  </md-card-content>
+                </md-card>
+                <md-card fxFlex>
+                  <md-card-title>Färdigheter</md-card-title>
+                  <md-card-content>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>security</md-icon></div>
+                        <div fxFlex><h3>{{ sheet.skills.fighting }}</h3></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>directions_run</md-icon></div>
+                        <div fxFlex><h3>{{ sheet.skills.movement }}</h3></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>mood</md-icon></div>
+                        <div fxFlex><h3>{{ sheet.skills.social }}</h3></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>school</md-icon></div>
+                        <div fxFlex><h3>{{ sheet.skills.learning }}</h3></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>build</md-icon></div>
+                        <div fxFlex><h3>{{ sheet.skills.tech }}</h3></div>
+                      </div>
+                  </md-card-content>
+                </md-card>
+              </div>
+            </div>
+            <div *ngIf="editing">
+              <div fxLayout="row" fxLayoutAlign="space-around">
+                <md-card fxFlex>
+                  <md-card-title>Karaktärsdata</md-card-title>
+                  <md-card-content>
+                    <div fxLayout="row" fxLayoutAlign="space-around">
+                      <md-input-container fxFlex>
+                        <input md-input placeholder="Namn" [(ngModel)]="editedSheet.name" required>
+                      </md-input-container>
+                      <md-input-container fxFlex>
+                        <input md-input placeholder="Arketyp" [(ngModel)]="editedSheet.archetype" required>
+                      </md-input-container>
+                    </div>
+                      <md-input-container fxFlexFill>
+                        <textarea md-input placeholder="Utseende" [(ngModel)]="editedSheet.appearance" required></textarea>
+                      </md-input-container>
+                  </md-card-content>
+                </md-card>
+                <md-card fxFlex>
+                  <md-card-title>Färdigheter</md-card-title>
+                  <md-card-content>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>security</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" [(ngModel)]="editedSheet.skills.fighting" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>directions_run</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" [(ngModel)]="editedSheet.skills.movement" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>mood</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" [(ngModel)]="editedSheet.skills.social" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>school</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" [(ngModel)]="editedSheet.skills.learning" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>build</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" [(ngModel)]="editedSheet.skills.tech" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                  </md-card-content>
+                </md-card>
+              </div>
+            </div>
+          </md-card-content>
+          <md-card-actions *ngIf="!editing" align="end">
+            <button md-button (click)="edit(sheet)">EDITERA</button>
+            <button md-button (click)="deleteSheet(sheet._id)" [disabled]="!delete">RADERA</button>
+            <md-slide-toggle [(ngModel)]="delete" color="primary"></md-slide-toggle>
+          </md-card-actions>
+          <md-card-actions *ngIf="editing">
+            <button md-button (click)="editSheet()">SPARA</button>
+            <button md-button (click)="reset()">AVBRYT</button>
+          </md-card-actions>
+        </md-card>
+      </md-tab>
+      <md-tab>
+        <template md-tab-label>
+          <strong>Skapa nytt formulär</strong>
+        </template>
+        <md-card>
+          <md-card-title>Nytt formulär</md-card-title>
+          <md-card-content>
+            <form [formGroup]="sheetForm">
+              <div fxLayout="row" fxLayoutAlign="space-around">
+                <md-card fxFlex>
+                  <md-card-title>Karaktärsdata</md-card-title>
+                  <md-card-content>
+                    <div fxLayout="row" fxLayoutAlign="space-around">
+                      <md-input-container fxFlex>
+                        <input md-input placeholder="Namn" formControlName="name" required>
+                      </md-input-container>
+                      <md-input-container fxFlex>
+                        <input md-input placeholder="Arketyp" formControlName="archetype" required>
+                      </md-input-container>
+                    </div>
+                      <md-input-container fxFlexFill>
+                        <textarea md-input placeholder="Utseende" formControlName="appearance" required></textarea>
+                      </md-input-container>
+                  </md-card-content>
+                </md-card>
+                <md-card fxFlex>
+                  <div formGroupName="skills">
+                  <md-card-title>Färdigheter</md-card-title>
+                  <md-card-content>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>security</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" formControlName="fighting" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>directions_run</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" formControlName="movement" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>mood</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" formControlName="social" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>school</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" formControlName="learning" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-around center">
+                        <div fxFlex="10"><md-icon>build</md-icon></div>
+                        <div fxFlex><md-slider min="1" max="5" step="1" formControlName="tech" thumbLabel tickInterval="1"></md-slider></div>
+                      </div>
+                  </md-card-content>
+                  </div>
+                </md-card>
+              </div>
+            </form>
+          </md-card-content>
+          <md-card-actions>
+            <button md-button (click)="onSubmitNew()" [disabled]="!sheetForm.valid">SKAPA</button>
+          </md-card-actions>
+        </md-card>
+      </md-tab>
+    </md-tab-group>
+  </md-card-content>
+</md-card>

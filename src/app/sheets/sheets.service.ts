@@ -12,7 +12,7 @@ export class SheetsService {
 
   constructor (private authHttp: AuthHttp) { }
 
-  getSheet (id: String): Observable<Sheet> {
+  getSheet (id: string): Observable<Sheet> {
     return this.authHttp.get(this.sheetsUrl + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
@@ -30,10 +30,18 @@ export class SheetsService {
                     .catch(this.handleError);
   }
 
-  deleteSheet (id: String): Observable<Sheet> {
+  deleteSheet (id: string): Observable<Sheet> {
     return this.authHttp.delete(this.sheetsUrl + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
+  }
+
+  updateSheet (sheet: Sheet): Observable<Sheet> {
+    let id = sheet._id;
+    delete sheet._id;
+    return this.authHttp.patch(this.sheetsUrl + '/' + id, JSON.stringify(sheet))
+                        .map(this.extractData)
+                        .catch(this.handleError);
   }
 
   private extractData(res: Response) {
@@ -48,7 +56,7 @@ export class SheetsService {
       const err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : error.tostring();
     }
     console.error(errMsg);
     return Observable.throw(errMsg);

@@ -1,5 +1,5 @@
-export class Sheet {
-    _id: string;
+export interface Sheet {
+    _id?: string;
     name: string;
     archetype: string;
     appearance: string;

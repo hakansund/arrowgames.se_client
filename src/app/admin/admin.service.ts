@@ -12,7 +12,7 @@ export class AdminService {
 
   constructor(private authHttp: AuthHttp) { }
 
-  getUser (id: String): Observable<User> {
+  getUser (id: string): Observable<User> {
     return this.authHttp.get(this.usersUrl + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
@@ -30,7 +30,7 @@ export class AdminService {
                     .catch(this.handleError);
   }
 
-  deleteUser (id: String): Observable<User> {
+  deleteUser (id: string): Observable<User> {
     return this.authHttp.delete(this.usersUrl + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
@@ -48,7 +48,7 @@ export class AdminService {
       const err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : error.tostring();
     }
     console.error(errMsg);
     return Observable.throw(errMsg);

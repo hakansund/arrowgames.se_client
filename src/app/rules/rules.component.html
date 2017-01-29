@@ -1,5 +1,57 @@
-<div class="row">
-  <br><h1 class="text-xs-center"> Regler </h1>
-</div>
-<br>
-<router-outlet></router-outlet>
+<md-card>
+  <md-card-title>Regler</md-card-title>
+  <md-card-content>
+    <md-tab-group (selectChange)=reset()>
+      <md-tab *ngFor="let rule of rules" label={{rule.title}}>
+        <md-card>
+          <md-card-title>{{ rule.title }}</md-card-title>
+          <md-card-content>
+            <div *ngIf="!editing">
+              <div [innerHTML]="rule.text"></div>
+            </div>
+            <div *ngIf="editing">
+            <form [formGroup]="editForm">
+              <md-input-container>
+                <input md-input placeholder="Titel" formControlName="title" required>
+              </md-input-container>
+              <p>
+              <p-editor formControlName="text"></p-editor>
+              </p>
+            </form>
+            </div>
+          </md-card-content>
+          <md-card-actions *ngIf="!editing" align="end">
+            <button md-button (click)="edit(rule)">EDITERA</button>
+            <button md-button (click)="deleteRule(rule._id)" [disabled]="!delete">RADERA</button>
+            <md-slide-toggle [(ngModel)]="delete" color="primary"></md-slide-toggle>
+          </md-card-actions>
+          <md-card-actions *ngIf="editing">
+            <button md-button (click)="onSubmitEdit()" [disabled]="!editForm.valid">SPARA</button>
+            <button md-button (click)="resetEditForm()">AVBRYT</button>
+          </md-card-actions>
+        </md-card>
+      </md-tab>
+      <md-tab>
+        <template md-tab-label>
+          <strong>Skapa ny regel</strong>
+        </template>
+        <md-card>
+          <md-card-title>Ny regel</md-card-title>
+          <md-card-content>
+            <form [formGroup]="ruleForm">
+              <md-input-container>
+                <input md-input placeholder="Titel" formControlName="title" required>
+              </md-input-container>
+              <p>
+              <p-editor formControlName="text"></p-editor>
+              </p>
+            </form>
+          </md-card-content>
+          <md-card-actions>
+              <button md-button (click)="onSubmitNew()" [disabled]="!ruleForm.valid">SKAPA</button>
+          </md-card-actions>
+        </md-card>
+      </md-tab>
+    </md-tab-group>
+  </md-card-content>
+</md-card>

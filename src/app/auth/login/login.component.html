@@ -1,0 +1,16 @@
+<h1 md-dialog-title>Logga in</h1>
+
+<div md-dialog-content>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <md-input-container>
+      <input md-input placeholder="Användarnamn" formControlName="username" required>
+    </md-input-container>
+    <md-input-container>
+      <input md-input type="password" placeholder="Lösenord" formControlName="password" required>
+    </md-input-container>
+  </form>
+</div>
+
+<div md-dialog-actions>
+    <button md-raised-button (click)="dialogRef.close(loginForm.value)" [disabled]="!loginForm.valid">Logga in</button>
+</div>

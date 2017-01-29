@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { MaterialModule } from '@angular/material';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminService } from './admin.service';
 import { AdminComponent } from './admin.component';
-import { UsersListComponent } from './users-list/users-list.component';
-import { UsersDetailComponent } from './users-detail/users-detail.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
-    NgbModule,
+    MaterialModule,
     AdminRoutingModule
   ],
-  declarations: [AdminComponent, UsersListComponent, UsersDetailComponent],
+  declarations: [AdminComponent],
   providers: [AdminService]
 })
 export class AdminModule { }

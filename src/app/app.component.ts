@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
+import { MdDialog, MdDialogRef } from '@angular/material';
 
 import { AuthService } from './auth/auth.service';
+import { LoginComponent } from './auth/login/login.component';
 
 import './rxjs-operators';
 
@@ -13,33 +13,23 @@ import './rxjs-operators';
 })
 export class AppComponent implements OnInit {
 
-  loginForm: FormGroup;
+  constructor(private authService: AuthService, private dialog: MdDialog) { }
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private titleService: Title) {
-    this.titleService.setTitle('Arrow Games');
-  }
-
-  ngOnInit() {
-    this.buildForm();
-   }
-
-  buildForm() {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
-
-  onSubmit() {
-    this.authService.login(this.loginForm.value.username, this.loginForm.value.password)
-    .subscribe(
-      result => console.log(result),
-      error => console.log(error)
-      );
-  }
+  ngOnInit() { }
 
   onLogOut() {
     this.authService.logout();
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(LoginComponent);
+    dialogRef.afterClosed().subscribe(loginData => {
+      this.authService.login(loginData.username, loginData.password)
+      .subscribe(
+        result => console.log(result),
+        error => console.log(error)
+        );
+    });
   }
 
 }
