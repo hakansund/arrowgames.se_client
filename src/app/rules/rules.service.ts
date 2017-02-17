@@ -26,7 +26,7 @@ export class RulesService {
 
   addRule (rule: Rule): Observable<Rule> {
     return this.authHttp.post(this.rulesUrl, JSON.stringify(rule))
-                    .map((res: Response) => (res.json().rule))
+                    .map((res: Response) => (res.json()))
                     .catch(this.handleError);
   }
 

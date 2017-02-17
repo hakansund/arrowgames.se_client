@@ -26,7 +26,7 @@ export class AdminService {
 
   addUser (user: User): Observable<User> {
     return this.authHttp.post(this.usersUrl, JSON.stringify(user))
-                    .map((res: Response) => (res.json().user))
+                    .map((res: Response) => (res.json()))
                     .catch(this.handleError);
   }
 

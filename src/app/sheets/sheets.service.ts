@@ -26,7 +26,7 @@ export class SheetsService {
 
   addSheet (sheet: Sheet): Observable<Sheet> {
     return this.authHttp.post(this.sheetsUrl, JSON.stringify(sheet))
-                    .map((res: Response) => (res.json().sheet))
+                    .map((res: Response) => (res.json()))
                     .catch(this.handleError);
   }
 
